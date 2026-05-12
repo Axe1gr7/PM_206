@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>EL ORÁCULO DE LAS NOTAS</h2>
+<p class="story-text">La tabla de evaluación revelará el peso de tus evidencias.</p>
+
+<div id="reading-section">
+    <h3>CONTEXTO DE LA ASIGNATURA:</h3>
+    <div class="reading-content">
+        
+<table>
+    <tr><th>EVALUACIÓN</th><th>1er Parcial</th><th>2do Parcial</th><th>3er Parcial</th></tr>
+    <tr><td>Evidencia de Conocimiento</td><td>40%</td><td>40%</td><td>10%</td></tr>
+    <tr><td>Evidencia de Desempeño</td><td>20%</td><td>20%</td><td>10%</td></tr>
+    <tr><td>Evidencia de Producto</td><td>30%</td><td>30%</td><td>30%</td></tr>
+    <tr><td>Proyecto Integrador</td><td>10%</td><td>10%</td><td>50%</td></tr>
+</table>
+<p>Revisa la tabla con cuidado, tu vida académica depende de estos porcentajes.</p>
+
+    </div>
+    <button id="start-quiz-btn">IR AL DESAFÍO</button>
+</div>
+
+<div id="quiz-section" class="hidden">
+    <div id="lives-container" class="lives-container"></div>
+    <div id="quiz-container"></div>
+    <button id="validate-btn">VERIFICAR RESPUESTAS</button>
+
+    <div id="commitment-container" class="commitment-box hidden">
+        <p>¿Aceptas el compromiso de este apartado?</p>
+        <label>
+            <input type="checkbox" id="commitment-check"> YO ACEPTO EL COMPROMISO
+        </label>
+        <br><br>
+        <button id="next-btn" class="hidden" onclick="location.href='/skills'">SIGUIENTE NIVEL</button>
+    </div>
+</div>
+
+<script>
+window.levelData = [{"question": "\u00bfCu\u00e1nto vale la Evidencia de Conocimiento en el 1er Parcial?", "options": ["10%", "20%", "40%", "50%"], "answer": 2}, 
+                    {"question": "\u00bfCu\u00e1nto vale el Proyecto Integrador en el 3er Parcial?", "options": ["10%", "30%", "40%", "50%"], "answer": 3}, 
+                    {"question": "\u00bfCu\u00e1nto vale la Evidencia de Desempe\u00f1o en el 1er Parcial?", "options": ["10%", "20%", "30%", "40%"], "answer": 1}, 
+                    {"question": "\u00bfCu\u00e1nto vale la Evidencia de Producto en todos los parciales?", "options": ["10%", "20%", "30%", "40%"], "answer": 2}, 
+                    {"question": "\u00bfCu\u00e1nto vale la Evidencia de Conocimiento en el 3er Parcial?", "options": ["10%", "20%", "40%", "50%"], "answer": 0}, 
+                    {"question": "\u00bfCu\u00e1nto vale el Proyecto Integrador en el 1er Parcial?", "options": ["10%", "20%", "30%", "50%"], "answer": 0}, 
+                    {"question": "\u00bfEn qu\u00e9 evaluaci\u00f3n el Proyecto Integrador tiene su mayor peso (50%)?", "options": ["1er Parcial", "2do Parcial", "3er Parcial", "Nunca"], "answer": 2}, 
+                    {"question": "\u00bfQu\u00e9 evidencia mantiene un valor constante de 30% todo el semestre?", "options": ["Conocimiento", "Desempe\u00f1o", "Proyecto Integrador", "Producto"], "answer": 3}];
+</script>
+{% endblock %}

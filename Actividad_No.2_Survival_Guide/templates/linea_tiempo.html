@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>LA LÍNEA DEL TIEMPO</h2>
+<p class="story-text">Apunta en tu memoria las fechas clave de los parciales.</p>
+
+<div id="reading-section">
+    <h3>CONTEXTO DE LA ASIGNATURA:</h3>
+    <div class="reading-content">
+        
+<ul>
+    <li><b>Asignatura:</b> Programación Móvil (Grupo 206)</li>
+    <li><b>Profesor:</b> Ivan Isay Guerra Lopez</li>
+    <li><b>Cuatrimestre:</b> Mayo - Agosto 2026</li>
+    <br>
+    <li><b>1er Parcial:</b> 02-06-26</li>
+    <li><b>2do Parcial:</b> 07-07-26</li>
+    <li><b>3er Parcial:</b> 11-08-26</li>
+    <li><b>Examen Final:</b> 17-08-26</li>
+    <li>El día destinado a entrega de calificaciones es de presencia obligatoria para retroalimentación.</li>
+</ul>
+
+    </div>
+    <button id="start-quiz-btn">IR AL DESAFÍO</button>
+</div>
+
+<div id="quiz-section" class="hidden">
+    <div id="lives-container" class="lives-container"></div>
+    <div id="quiz-container"></div>
+    <button id="validate-btn">VERIFICAR RESPUESTAS</button>
+
+    <div id="commitment-container" class="commitment-box hidden">
+        <p>¿Aceptas el compromiso de este apartado?</p>
+        <label>
+            <input type="checkbox" id="commitment-check"> YO ACEPTO EL COMPROMISO
+        </label>
+        <br><br>
+        <button id="next-btn" class="hidden" onclick="location.href='/win'">RECLAMAR TROFEO</button>
+    </div>
+</div>
+
+<script>
+window.levelData = [{"question": "\u00bfCu\u00e1ndo es la fecha de evaluaci\u00f3n del 1er Parcial?", "options": ["02-05-26", "02-06-26", "11-08-26", "07-07-26"], "answer": 1}, 
+                    {"question": "\u00bfCu\u00e1ndo es la fecha del 2do Parcial?", "options": ["02-06-26", "17-08-26", "07-07-26", "11-08-26"], "answer": 2}, 
+                    {"question": "\u00bfCu\u00e1ndo es la fecha del 3er Parcial?", "options": ["11-08-26", "17-08-26", "02-06-26", "07-07-26"], "answer": 0}, 
+                    {"question": "\u00bfCu\u00e1ndo est\u00e1 programado el Examen Final?", "options": ["11-08-26", "07-07-26", "17-08-26", "02-06-26"], "answer": 2}, 
+                    {"question": "\u00bfEn qu\u00e9 cuatrimestre se imparte la materia?", "options": ["Enero-Abril 2026", "Septiembre-Diciembre 2026", "Mayo-Agosto 2026", "Julio-Diciembre 2026"], "answer": 2}, 
+                    {"question": "\u00bfCu\u00e1l es el nombre del profesor?", "options": ["Ivan Isay Guerra Lopez", "Cristiano Ronaldo", "Pedro infante", "Ivan Ismael Guerra"], "answer": 0}, 
+                    {"question": "\u00bfQu\u00e9 grupo es el asignado a este plan?", "options": ["101", "206", "304", "501"], "answer": 1}, 
+                    {"question": "\u00bfPara qu\u00e9 es obligatoria la presencia el d\u00eda de calificaciones?", "options": ["Para comer", "Para retroalimentaci\u00f3n", "Para jugar fut", "No es obligatoria"], "answer": 1}];
+</script>
+{% endblock %}

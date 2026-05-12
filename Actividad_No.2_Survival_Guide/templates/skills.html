@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>SKILLS A DESBLOQUEAR</h2>
+<p class="story-text">Conoce tus competencias y las 4 unidades del temario.</p>
+
+<div id="reading-section">
+    <h3>CONTEXTO DE LA ASIGNATURA:</h3>
+    <div class="reading-content">
+        
+<p><b>OBJETIVO:</b> Desarrollará aplicaciones móviles mediante lenguajes de programación, entornos de desarrollo, diseño de interfaces de usuario, arquitecturas, patrones de diseño y herramientas de programación móvil.</p>
+<p><b>COMPETENCIAS:</b> Soluciones tecnológicas multiplataforma de software web y móvil utilizando programación orientada a objetos, frameworks, bases de datos, estándares de calidad y diseño.</p>
+<table>
+    <tr><th>UNIDAD</th><th>TEMARIO</th></tr>
+    <tr><td>I</td><td>Introducción al desarrollo apps moviles</td></tr>
+    <tr><td>II</td><td>Diseño de aplicaciones móviles</td></tr>
+    <tr><td>III</td><td>Programacion de aplicaciones moviles</td></tr>
+    <tr><td>IV</td><td>Publicacion de aplicaciones moviles</td></tr>
+</table>
+<p>HORAS POR CUATRIMESTRE: 90 (36 Teoría, 54 Práctica).</p>
+
+    </div>
+    <button id="start-quiz-btn">IR AL DESAFÍO</button>
+</div>
+
+<div id="quiz-section" class="hidden">
+    <div id="lives-container" class="lives-container"></div>
+    <div id="quiz-container"></div>
+    <button id="validate-btn">VERIFICAR RESPUESTAS</button>
+
+    <div id="commitment-container" class="commitment-box hidden">
+        <p>¿Aceptas el compromiso de este apartado?</p>
+        <label>
+            <input type="checkbox" id="commitment-check"> YO ACEPTO EL COMPROMISO
+        </label>
+        <br><br>
+        <button id="next-btn" class="hidden" onclick="location.href='/timeline'">SIGUIENTE NIVEL</button>
+    </div>
+</div>
+
+<script>
+window.levelData = [{"question": "\u00bfCu\u00e1l es la asignatura de este plan de estudios?", "options": ["Bases de Datos", "Redes", "Programaci\u00f3n M\u00f3vil", "Sistemas Web"], "answer": 2}, 
+{"question": "\u00bfCu\u00e1l de estas es la Unidad IV de aprendizaje?", "options": ["Publicaci\u00f3n de aplicaciones m\u00f3viles", "Dise\u00f1o de apps", "Introducci\u00f3n", "Servidores"], "answer": 0}, 
+{"question": "\u00bfCu\u00e1ntas horas totales por cuatrimestre tiene la asignatura?", "options": ["50", "90", "120", "36"], "answer": 1}, 
+{"question": "\u00bfCu\u00e1l es la Unidad I del temario?", "options": ["Publicaci\u00f3n", "Introducci\u00f3n al desarrollo apps", "Bases de datos", "Dise\u00f1o"], "answer": 1},
+{"question": "\u00bfQu\u00e9 tipos de soluciones tecnol\u00f3gicas abarca la competencia de la materia?", "options": ["Solo hardware", "Multiplataforma web y m\u00f3vil", "Solo juegos de consola", "Inteligencia Artificial"], "answer": 1}, 
+{"question": "\u00bfCu\u00e1ntas unidades conforman el temario en total?", "options": ["2", "3", "4", "5"], "answer": 2}, 
+{"question": "\u00bfCu\u00e1ntas horas de pr\u00e1ctica hay en total en el cuatrimestre?", "options": ["36", "54", "90", "10"], "answer": 1}, 
+{"question": "\u00bfQu\u00e9 elementos se desarrollar\u00e1n seg\u00fan el objetivo general?", "options": ["Bases de datos en la nube", "Rob\u00f3tica", "Interfaces de usuario y arquitecturas m\u00f3viles", "Sistemas operativos"], "answer": 2}];
+</script>
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>LA CÁMARA DE LAS REGLAS</h2>
+<p class="story-text">Analiza el reglamento oficial del profesor para sobrevivir al laboratorio.</p>
+
+<div id="reading-section">
+    <h3>CONTEXTO DE LA ASIGNATURA:</h3>
+    <div class="reading-content">
+        
+<ul>
+    <li>1. Se requiere 80% de asistencia para tener derecho a evaluación parcial.</li>
+    <li>2. Se permiten 5 minutos de tolerancia.</li>
+    <li>3. Faltas justificadas vía correo institucional en un plazo máximo de 24 horas.</li>
+    <li>4. Tareas en Classroom de forma individual, sin extemporáneas.</li>
+    <li>7. Plagio o copia de trabajos/exámenes será condicionado a reprobar la asignatura.</li>
+    <li>8. Cualquier deshonestidad académica reprobará el parcial sin derecho a final.</li>
+    <li>9. Indisciplina: 1ra llamada de atención, si se omite abandona el aula. 3 incidencias = sin derecho a examen.</li>
+    <li>10. Laptops y móviles solo para actividades de la clase.</li>
+    <li>11. Prohibido el uso de audífonos.</li>
+    <li>12. Prohibido comer y/o tomar líquidos en el salón.</li>
+    <li>14. Temas académicos revisados primero con el docente, luego tutor, y dirección.</li>
+    <li>17. El reglamento entra en vigor al ser firmado por el 50% más el jefe de grupo.</li>
+</ul>
+
+    </div>
+    <button id="start-quiz-btn">IR AL DESAFÍO</button>
+</div>
+
+<div id="quiz-section" class="hidden">
+    <div id="lives-container" class="lives-container"></div>
+    <div id="quiz-container"></div>
+    <button id="validate-btn">VERIFICAR RESPUESTAS</button>
+
+    <div id="commitment-container" class="commitment-box hidden">
+        <p>¿Aceptas el compromiso de la camara de reglas?</p>
+        <label>
+            <input type="checkbox" id="commitment-check"> YO ACEPTO EL COMPROMISO
+        </label>
+        <br><br>
+        <button id="next-btn" class="hidden" onclick="location.href='/notas'">SIGUIENTE NIVEL</button>
+    </div>
+</div>
+
+<script>
+window.levelData = [{"question": "\u00bfCu\u00e1l es el porcentaje m\u00ednimo de asistencia para evaluaci\u00f3n?", "options": ["60%", "70%", "80%", "100%"], "answer": 2}, 
+                    {"question": "\u00bfCu\u00e1ntos minutos de tolerancia hay?", "options": ["5 minutos", "10 minutos", "15 minutos", "No hay"], "answer": 0}, 
+                    {"question": "\u00bfCu\u00e1l es el plazo m\u00e1ximo para justificar faltas con correo institucional?", "options": ["48 horas", "24 horas", "Al fin de mes", "1 semana"], "answer": 1}, 
+                    {"question": "\u00bfCu\u00e1l es la sanci\u00f3n por plagio en trabajos o ex\u00e1menes?", "options": ["Llamado de atenci\u00f3n", "Reprobar el parcial", "Reprobar la asignatura", "Hacer doble tarea"], "answer": 2}, 
+                    {"question": "\u00bfCu\u00e1ntas incidencias de indisciplina te dejan sin derecho a examen?", "options": ["1", "2", "3", "5"], "answer": 2}, 
+                    {"question": "\u00bfEst\u00e1 permitido el uso de aud\u00edfonos en clase?", "options": ["Solo si hay m\u00fasica", "S\u00ed, para programar", "Solo un o\u00eddo", "No, prohibido"], "answer": 3}, 
+                    {"question": "\u00bfEst\u00e1 permitido comer y/o tomar l\u00edquidos en el sal\u00f3n?", "options": ["Solo agua", "No, prohibido", "Solo galletas", "S\u00ed, libremente"], "answer": 1}, 
+                    {"question": "\u00bfA qui\u00e9n hay que acudir PRIMERO en caso de un problema acad\u00e9mico?", "options": ["Al Director", "Al Tutor", "Al Docente", "Al Jefe de Grupo"], "answer": 2}];
+</script>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>BIENVENIDO, Cardenalito</h2>
+<p class="story-text">
+    Te encuentras en la entrada de la materia de <b>Programación Móvil</b>. 
+    El profesor <b>ISC Ivan Isay Guerra López</b> (Grupo S-206) te observa desde las sombras del compilador y espera que abordes el nido.
+</p>
+<p class="story-text">
+    Tu misión es leer detenidamente la información de la asignatura, cuidar tus 3 vidas (Cardenales) y responder correctamente para avanzar.
+</p>
+<div style="text-align: center;">
+    <p class="blink" style="color: #ffff00; font-size: 14px; margin-top: 20px;">PRESIONA START PARA COMENZAR</p>
+    <br>
+    <button onclick="location.href='/reglas'">START GAME</button>
+</div>
+{% endblock %}
