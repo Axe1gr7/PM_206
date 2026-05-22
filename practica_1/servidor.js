@@ -16,7 +16,6 @@ console.log((edad1+edad2)/2)
 //medir tiempo de un proceso 
 //aqui declaramos la variable y se inicialZa el tiempo 
 console .time('miproceso')
-
 //este ciclo es el que se tiene que contar
     for(let i=0; i < 1000000; i++)
     {
