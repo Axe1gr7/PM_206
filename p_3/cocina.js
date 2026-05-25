@@ -1,3 +1,7 @@
+// ==========================================
+// SECCIÓN: MÓDULO DE COCINA Y PRODUCTOS
+// ==========================================
+
 export class Producto {
     constructor(id, nombre, precio, stock, categoria, promocion = 0) {
         this.id = id;
@@ -37,14 +41,7 @@ export class Cocina {
 
     agregarProducto(nombre, precio, stock, categoria, promocion = 0) {
         this.agregarCategoria(categoria);
-        const nuevoProducto = new Producto(
-            this.idActual++,
-            nombre,
-            precio,
-            stock,
-            categoria,
-            promocion
-        );
+        const nuevoProducto = new Producto(this.idActual++, nombre, precio, stock, categoria, promocion);
         this.productos.push(nuevoProducto);
         console.log("\nProducto agregado correctamente\n");
     }
@@ -117,9 +114,24 @@ export class Cocina {
     listarCategorias() {
         console.log("\nCategorías disponibles:", this.categorias.join(", "));
     }
+
+    // [IMPLEMENTACIÓN DE IMAGEN: USO DE PROMESAS EN EL MÓDULO COCINA]
+    actualizarEstatusPedidoPromesa(pedido, nuevoEstatus) {
+        return new Promise((resolve, reject) => {
+            if (!pedido) {
+                reject("El pedido referenciado es inválido o no existe.");
+            } else {
+                pedido.estado = nuevoEstatus;
+                resolve(`Estado del pedido actualizado exitosamente a: ${nuevoEstatus}`);
+            }
+        });
+    }
 }
 
-// --- INTERFAZ DE CONSOLA PARA COCINA ---
+// ==========================================
+// SECCIÓN: INTERFAZ DE CONSOLA DE COCINA
+// ==========================================
+
 export function uiMostrarBusqueda(resultados, titulo) {
     console.log(`\n${titulo}:\n`);
     if (resultados.length === 0) {
@@ -185,5 +197,108 @@ export function uiEliminarProductoCocina(rl, cocina, callbackMenu) {
     rl.question("ID del producto: ", id => {
         cocina.eliminarProducto(Number(id));
         callbackMenu();
+    });
+}
+
+export function uiGestionarEstatusPedidos(rl, caja, cocina, callbackMenu) {
+    console.log("\n--- CAMBIAR ESTADO DEL PEDIDO ---");
+    if (caja.pedidos.length === 0) {
+        console.log("No hay pedidos registrados en el sistema.\n");
+        return callbackMenu();
+    }
+    caja.listarPedidos();
+
+    rl.question("\nSelecciona el ID del pedido (0 para regresar): ", id => {
+        if (id === "0") return callbackMenu();
+
+        const pedido = caja.pedidos.find(p => p.idPedido === Number(id));
+        if (!pedido) {
+            console.log("\n[ERROR] El ID del pedido no existe.\n");
+            return callbackMenu();
+        }
+
+        console.log("\n1. Preparando");
+        console.log("2. Falta de ingredientes");
+        console.log("3. Error de cocina");
+        console.log("4. Listo");
+
+        rl.question("Seleccione una opcion (1-4): ", opcion => {
+            let nuevoEstatus = "";
+            switch (opcion.trim()) {
+                case "1": nuevoEstatus = "Preparando"; break;
+                case "2": nuevoEstatus = "Falta de ingredientes"; break;
+                case "3": nuevoEstatus = "Error de cocina"; break;
+                case "4": nuevoEstatus = "Listo"; break;
+                default:
+                    console.log("\nOpción inválida. Regresando.\n");
+                    return callbackMenu();
+            }
+
+            // [CONSUMO DE LA PROMESA DESDE LA INTERFAZ DE COCINA]
+            cocina.actualizarEstatusPedidoPromesa(pedido, nuevoEstatus)
+                .then(mensaje => {
+                    console.log(`\n${mensaje}\n`);
+                    callbackMenu();
+                })
+                .catch(error => {
+                    console.log(`\n[ERROR] ${error}\n`);
+                    callbackMenu();
+                });
+        });
+    });
+}
+
+export function uiCancelarPedidoError(rl, caja, cocina, callbackMenu) {
+    console.log("\n--- SECCIÓN DE ERRORES: CANCELACIÓN DE PEDIDOS ---");
+    if (caja.pedidos.length === 0) {
+        console.log("No hay pedidos registrados para gestionar errores.\n");
+        return callbackMenu();
+    }
+    caja.listarPedidos();
+
+    rl.question("\nSelecciona el ID del pedido a cancelar por error (0 para regresar): ", id => {
+        if (id === "0") return callbackMenu();
+
+        const pedido = caja.pedidos.find(p => p.idPedido === Number(id));
+        if (!pedido) {
+            console.log("\n[ERROR] El ID de pedido no existe.\n");
+            return callbackMenu();
+        }
+
+        if (pedido.estado === "Listo" || pedido.estado.startsWith("Cancelado")) {
+            console.log(`\n[ERROR] No se puede cambiar por error un pedido con estatus: '${pedido.estado}'.\n`);
+            return callbackMenu();
+        }
+
+        console.log(`\n--- SELECCIONAR ERROR DE COCINA PARA PEDIDO #${pedido.idPedido} ---`);
+        console.log("1. Falta de ingredientes (Agotado en Almacén)");
+        console.log("2. Error de cocina (Platillo Quemado / Mal Elaborado)");
+        console.log("3. Error de captura (Ticket Duplicado o Confuso)");
+
+        rl.question("Seleccione una opcion: ", opcion => {
+            let motivoError = "";
+            switch (opcion.trim()) {
+                case "1": motivoError = "Falta de ingredientes"; break;
+                case "2": motivoError = "Error de cocina"; break;
+                case "3": motivoError = "Error de captura"; break;
+                default:
+                    console.log("\nOpción de error inválida.\n");
+                    return callbackMenu();
+            }
+
+            pedido.items.forEach(item => {
+                const producto = cocina.productos.find(p => p.id === item.id);
+                if (producto) producto.stock += item.cantidad;
+            });
+
+            const totalArticulos = pedido.items.reduce((acc, item) => acc + item.cantidad, 0);
+            caja.totalArticulosVendidos -= totalArticulos;
+            caja.gananciasTotales -= pedido.totalConIva;
+            pedido.estado = `Cancelado por: ${motivoError}`;
+
+            console.log(`\nEstado actualizado a: ${pedido.estado}`);
+            console.log("Insumos devueltos al stock e importes financieros restados de Caja.\n");
+            callbackMenu();
+        });
     });
 }

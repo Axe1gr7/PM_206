@@ -1,7 +1,24 @@
+// ==========================================
+// SECCIÓN: ENRUTADOR DE MENÚS (MAIN)
+// ==========================================
+
 import readline from "readline";
-import { Cocina, uiMostrarBusqueda, uiAgregarProductoCocina, uiEditarProductoCocina, uiEliminarProductoCocina } from "./cocina.js";
+import { 
+    Cocina, 
+    uiMostrarBusqueda, 
+    uiAgregarProductoCocina, 
+    uiEditarProductoCocina, 
+    uiEliminarProductoCocina,
+    uiGestionarEstatusPedidos,
+    uiCancelarPedidoError 
+} from "./cocina.js";
 import { Caja, uiAgregarPedidoCaja, uiGenerarTicketCaja } from "./caja.js";
-import { Cliente, uiAgregarPedidoCliente, uiGenerarTicketCliente } from "./cliente.js";
+import { 
+    Cliente, 
+    uiAgregarPedidoCliente, 
+    uiRevisarEstatusCliente, 
+    uiGenerarTicketCliente 
+} from "./cliente.js";
 
 const cocina = new Cocina();
 const caja = new Caja(cocina);
@@ -96,7 +113,9 @@ function mostrarMenuCocina() {
 7. Buscar bebidas
 8. Buscar postres
 9. Listar categorias
-10. Regresar al menu principal
+10. Cambiar Estado del Pedido (Estatus Promesa)
+11. Cancelar Pedido por Error (Sección de Errores)
+12. Regresar al menu principal
 
 ==============================`);
     rl.question("Seleccione una opcion: ", opcion => {
@@ -117,6 +136,12 @@ function mostrarMenuCocina() {
                 mostrarMenuCocina();
                 break;
             case "10":
+                uiGestionarEstatusPedidos(rl, caja, cocina, mostrarMenuCocina);
+                break;
+            case "11":
+                uiCancelarPedidoError(rl, caja, cocina, mostrarMenuCocina);
+                break;
+            case "12":
                 mostrarMenuPrincipal();
                 break;
             default:
@@ -127,6 +152,7 @@ function mostrarMenuCocina() {
     });
 }
 
+// [IMPLEMENTACIÓN IMAGEN: INTEGRACIÓN DEL MENÚ DEL CLIENTE SEPARANDO ESTATUS ASÍNCRONO Y TICKET INDEPENDIENTE]
 function mostrarMenuCliente() {
     console.log(`
 ==============================
@@ -136,9 +162,10 @@ function mostrarMenuCliente() {
 1. Consultar Menú de Productos
 2. Crear pedido 
 3. Ver todos los pedidos 
-4. Generar Ticket de Compra x
-5. Ver Promociones
-6. Regresar al menu principal
+4. Revisar Estatus del Pedido (Asíncrono)
+5. Generar Ticket de Compra
+6. Ver Promociones
+7. Regresar al menu principal
 
 ==============================`);
     rl.question("Seleccione una opcion: ", opcion => {
@@ -155,13 +182,16 @@ function mostrarMenuCliente() {
                 mostrarMenuCliente();
                 break;
             case "4":
-                uiGenerarTicketCliente(rl, cliente, mostrarMenuCliente);
+                uiRevisarEstatusCliente(rl, cliente, mostrarMenuCliente);
                 break;
             case "5":
+                uiGenerarTicketCliente(rl, cliente, mostrarMenuCliente);
+                break;
+            case "6":
                 cliente.verPromociones();
                 mostrarMenuCliente();
                 break;
-            case "6":
+            case "7":
                 mostrarMenuPrincipal();
                 break;
             default:
@@ -172,5 +202,4 @@ function mostrarMenuCliente() {
     });
 }
 
-// Iniciar aplicación
 mostrarMenuPrincipal();

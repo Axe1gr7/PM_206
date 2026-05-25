@@ -1,3 +1,7 @@
+// ==========================================
+// SECCIÓN: MÓDULO DE CAJA Y FINANZAS
+// ==========================================
+
 export class Caja {
     constructor(referenciaCocina) {
         this.cocina = referenciaCocina;
@@ -7,37 +11,31 @@ export class Caja {
         this.gananciasTotales = 0;
     }
 
-    
     procesarOrden(nombreCliente, itemsSolicitados) {
         let itemsValidos = [];
-        let subtotalOrden = 0;
 
         for (let req of itemsSolicitados) {
-            const producto = this.cocina.productos.find(p => p.id === req.idProducto);
-            if (!producto) {
-                console.log(`\n-> Producto ID ${req.idProducto} no encontrado. Ignorado.`);
-                continue;
-            }
-            if (producto.stock < req.cantidad) {
-                console.log(`\n-> Stock insuficiente para "${producto.nombre}". Solo quedan ${producto.stock}. Ignorado.`);
+            const { idProducto, cantidad } = req; 
+            const producto = this.cocina.productos.find(p => p.id === idProducto);
+            
+            if (!producto || producto.stock < cantidad) {
+                console.log(`\n-> Producto ID ${idProducto} no disponible o stock insuficiente. Ignorado.`);
                 continue;
             }
 
-            
-            producto.stock -= req.cantidad;
+            producto.stock -= cantidad;
             let precioFinal = producto.precioConDescuento();
-            let costoArticulos = precioFinal * req.cantidad;
+            let costoArticulos = precioFinal * cantidad;
 
             itemsValidos.push({
                 id: producto.id,
                 nombre: producto.nombre,
-                cantidad: req.cantidad,
+                cantidad: cantidad,
                 precioCobrado: precioFinal,
                 subtotal: costoArticulos
             });
 
-            this.totalArticulosVendidos += req.cantidad;
-            subtotalOrden += costoArticulos;
+            this.totalArticulosVendidos += cantidad;
         }
 
         if (itemsValidos.length === 0) {
@@ -45,14 +43,17 @@ export class Caja {
             return;
         }
 
-        
-        
+        const subtotalOrden = itemsValidos.reduce((acc, item) => acc + item.subtotal, 0);
+        const ivaOrden = subtotalOrden * 0.16;
+        const totalConIvaOrden = subtotalOrden + ivaOrden;
+
         const nuevoPedido = {
             idPedido: this.idPedidoActual++,
             cliente: nombreCliente,
             items: itemsValidos,
             totalSinIva: subtotalOrden,
-            totalConIva: subtotalOrden * 1.16
+            totalConIva: totalConIvaOrden,
+            estado: "Pedido recibido"
         };
 
         this.pedidos.push(nuevoPedido);
@@ -69,7 +70,8 @@ export class Caja {
                 "ID Pedido": p.idPedido,
                 "Cliente": p.cliente,
                 "Artículos Totales": p.items.reduce((acc, item) => acc + item.cantidad, 0),
-                "Total (Con IVA)": `$${p.totalConIva.toFixed(2)}`
+                "Total (Con IVA)": `$${p.totalConIva.toFixed(2)}`,
+                "Estado Actual": p.estado
             }));
             console.table(tabla);
         }
@@ -104,9 +106,22 @@ export class Caja {
         console.log(` TOTAL:      $${pedido.totalConIva.toFixed(2)}`);
         console.log(`=========================================\n`);
     }
+
+    // [IMPLEMENTACIÓN DE IMAGEN: USO DE CALLBACKS EN EL MÓDULO DE CAJA]
+    obtenerEstatusPedido(idPedido, callback) {
+        const pedido = this.pedidos.find(p => p.idPedido === idPedido);
+        if (!pedido) {
+            callback("El ID de pedido solicitado no existe en la base de datos de Caja.", null);
+        } else {
+            callback(null, pedido);
+        }
+    }
 }
 
-// --- INTERFAZ DE CONSOLA PARA CAJA ---
+// ==========================================
+// SECCIÓN: INTERFAZ DE CONSOLA DE CAJA
+// ==========================================
+
 export function uiAgregarPedidoCaja(rl, caja, callbackMenu) {
     rl.question("Nombre del Cliente: ", nombreCliente => {
         let itemsSolicitados = [];
@@ -124,7 +139,7 @@ export function uiAgregarPedidoCaja(rl, caja, callbackMenu) {
                 }
                 rl.question("Cantidad: ", cantidad => {
                     itemsSolicitados.push({ idProducto: Number(id), cantidad: Number(cantidad) });
-                    pedirProducto(); // Ciclo recursivo hasta poner 0
+                    pedirProducto(); 
                 });
             });
         };
