@@ -3,11 +3,11 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View ,Image} from 'react-native';
 import {Saludo} from './components/Saludo';
 import { Salu2 } from './components/salu2';
-
-
+import { Axel } from './components/Axelgr';
 /* Zona 2 main - hogar de los componentes  */
 export default function App() {
   return (
+    /*
     <View style={styles.container}>
       <Text>-------------imagen------------------</Text>
       <Image source={require('./assets/wave.png')}/>
@@ -22,6 +22,10 @@ export default function App() {
       
       <StatusBar style="auto" />
     </View>
+    */
+   <View style={styles.container}>
+    <Axel></Axel>
+   </View>
   );
 }
 
