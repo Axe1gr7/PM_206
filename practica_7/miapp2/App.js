@@ -3,7 +3,8 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View ,Image} from 'react-native';
 import {Saludo} from './components/Saludo';
 import { Salu2 } from './components/salu2';
-import { Axel } from './components/Axelgr';
+import { Perfil } from './components/Axelgr';
+import { Perfil2 } from './components/perfil_desestructuracion';
 /* Zona 2 main - hogar de los componentes  */
 export default function App() {
   return (
@@ -24,14 +25,22 @@ export default function App() {
     </View>
     */
    <View style={styles.container}>
-    <Axel 
+    <Perfil 
         nombre="axel" 
         carrera="sistemas" 
         materia="pm" 
         cuatri="9no" 
         grupo="206"
+    ></Perfil>
+    <Text>-------------------</Text>
+    <Perfil2
+        nombre="edith" 
+        carrera="sistemas" 
+        materia="pm" 
+        cuatri="9no" 
+        grupo="207"
     >
-    </Axel>
+    </Perfil2>
    </View>
   );
 }
