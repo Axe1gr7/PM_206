@@ -1,84 +1,122 @@
-/*zona1: importaciones de componentes y archivos */
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, SafeAreaView, ScrollView, Image} from 'react-native';
-import { Perfil2 } from '../components/perfil2';
+import React, { useState } from 'react';
+import {
+    SafeAreaView,
+    ScrollView,
+    View,
+    Text,
+    StyleSheet,
+    Switch
+} from 'react-native';
 
 
-/*zona2: main - hogar de los componetes */
-export default function SafeAreaScreen() {
+export default function SafeAreaScreen(){
+  const [activo, setActivo] = useState(true);
+
+  const Contenedor = activo ? SafeAreaView : View;
+
   return (
+    <Contenedor style={styles.fondo}>
+      
 
-    <SafeAreaView style={styles.container}>
+      <Text style={styles.titulo}>
+        safe area contedio y scrollview 
+      </Text>
+      
+      <Text style={styles.descripcion}>
+        ueeyyeyuewyeuwyeuwuiegwqiuguieqwgiuewgyewfiewyfeqiygdiuewqduigeqwudigequidequwduiqwgduiqwgduwqgduiwgqdgeqiuhequgeqiugfuieqdubeqd
+        ueeyyeyuewyeuwyeuwuiegwqiuguieqwgiuewgyewfiewyfeqiygdiuewqduigeqwudigequidequwduiqwgduiqwgduwqgduiwgqdgeqiuhequgeqiugfuieqdubeqd
+        ueeyyeyuewyeuwyeuwuiegwqiuguieqwgiuewgyewfiewyfeqiygdiuewqduigeqwudigequidequwduiqwgduiqwgduwqgduiwgqdgeqiuhequgeqiugfuieqdubeqd
+        ueeyyeyuewyeuwyeuwuiegwqiuguieqwgiuewgyewfiewyfeqiygdiuewqduigeqwudigequidequwduiqwgduiqwgduwqgduiwgqdgeqiuhequgeqiugfuieqdubeqd
+        ueeyyeyuewyeuwyeuwuiegwqiuguieqwgiuewgyewfiewyfeqiygdiuewqduigeqwudigequidequwduiqwgduiqwgduwqgduiwgqdgeqiuhequgeqiugfuieqdubeqd
+        ueeyyeyuewyeuwyeuwuiegwqiuguieqwgiuewgyewfiewyfeqiygdiuewqduigeqwudigequidequwduiqwgduiqwgduwqgduiwgqdgeqiuhequgeqiugfuieqdubeqd
+        ueeyyeyuewyeuwyeuwuiegwqiuguieqwgiuewgyewfiewyfeqiygdiuewqduigeqwudigequidequwduiqwgduiqwgduwqgduiwgqdgeqiuhequgeqiugfuieqdubeqd
+      </Text>
 
-      <ScrollView>
-        <Text>Aquí va la practica de Ivet o Gaby gaby</Text>
 
-        <Perfil2 style={styles.targetaRoja} nombre="Edith Uribe" carrera="Sitemas" materia="programacion movil" cuatri="noveno"></Perfil2>
-        <Perfil2 style={styles.targetaVerde} nombre="Axel GR" carrera="Sitemas" materia="programacion movil" cuatri="noveno"></Perfil2>
-        <Perfil2 style={styles.targetaRoja} nombre="Edith Uribe" carrera="Sitemas" materia="programacion movil" cuatri="noveno"></Perfil2>
-        <Perfil2 style={styles.targetaVerde} nombre="Axel GR" carrera="Sitemas" materia="programacion movil" cuatri="noveno"></Perfil2>
+      <Switch
+        value={activo}
+        onValueChange={(valor) => setActivo(valor)}
+      />
 
-        <ScrollView horizontal={true}>
+      <Text style={styles.titulo}>
+        scrollview
+      </Text>
 
-          <Perfil2 style={styles.targetaRoja} nombre="Edith Uribe" carrera="Sitemas" materia="programacion movil" cuatri="noveno"></Perfil2>
-          <Perfil2 style={styles.targetaVerde} nombre="Axel GR" carrera="Sitemas" materia="programacion movil" cuatri="noveno"></Perfil2>
-          <Perfil2 style={styles.targetaRoja} nombre="Edith Uribe" carrera="Sitemas" materia="programacion movil" cuatri="noveno"></Perfil2>
-          <Perfil2 style={styles.targetaVerde} nombre="Axel GR" carrera="Sitemas" materia="programacion movil" cuatri="noveno"></Perfil2>
-          <Perfil2 style={styles.targetaRoja} nombre="Edith Uribe" carrera="Sitemas" materia="programacion movil" cuatri="noveno"></Perfil2>
-          <Perfil2 style={styles.targetaVerde} nombre="Axel GR" carrera="Sitemas" materia="programacion movil" cuatri="noveno"></Perfil2>
-        </ScrollView>
+      <ScrollView style={styles.lista}>
+        <View style={[styles.tarjeta, {backgroundColor: 'red'}]}>
+          <Text style={styles.textoTarjeta}>elemento 1 </Text>
+        </View>
+        <View style={[styles.tarjeta, {backgroundColor: 'blue'}]}>
+          <Text style={styles.textoTarjeta}>elemento 2 </Text>
+        </View>
+        <View style={[styles.tarjeta, {backgroundColor: 'green'}]}>
+          <Text style={styles.textoTarjeta}>elemento 3 </Text>
+        </View>
+        <View style={[styles.tarjeta, {backgroundColor: 'puple'}]}>
+          <Text style={styles.textoTarjeta}>elemento 4 </Text>
+        </View>
+        <View style={[styles.tarjeta, {backgroundColor: 'pink'}]}>
+          <Text style={styles.textoTarjeta}>elemento 5 </Text>
+        </View>
+        <View style={[styles.tarjeta, {backgroundColor: 'black'}]}>
+          <Text style={styles.textoTarjeta}>elemento 6 </Text>
+        </View>
+        <View style={[styles.tarjeta, {backgroundColor: 'yellow'}]}>
+          <Text style={styles.textoTarjeta}>elemento 7 </Text>
+        </View>
+      </ScrollView>
 
-        <Text style={styles.tituloCarrusel}>carrusel de imagenes </Text>
-        <ScrollView horizontal={true} style={styles.carruselContenedor}>
-          <Image source={require('../assets/foto1.jpg')} style={styles.carruselImagenes}/>
-          <Image source={require('../assets/foto2.jpg')} style={styles.carruselImagenes}/>
-          <Image source={require('../assets/foto3.jpg')} style={styles.carruselImagenes}/>
-        </ScrollView>
-
-        <Perfil2 style={styles.targetaRoja} nombre="Edith Uribe" carrera="Sitemas" materia="programacion movil" cuatri="noveno"></Perfil2>
-        <Perfil2 style={styles.targetaVerde} nombre="Axel GR" carrera="Sitemas" materia="programacion movil" cuatri="noveno"></Perfil2>
-        <Perfil2 style={styles.targetaRoja} nombre="Edith Uribe" carrera="Sitemas" materia="programacion movil" cuatri="noveno"></Perfil2>
-        <Perfil2 style={styles.targetaVerde} nombre="Axel GR" carrera="Sitemas" materia="programacion movil" cuatri="noveno"></Perfil2>
-
-      <StatusBar style='auto'/>
-
-      </ScrollView>  
-
-    </SafeAreaView>
+    </Contenedor>
   );
 }
 
-/*zona3: estilos y posicionamiento */
+
 const styles = StyleSheet.create({
-  container: {
+  fondo: {
     flex: 1,
-    backgroundColor: '#fff',
-    width:450,
-    margin: 50,
+    backgroundColor: '#1a1a2e',
+    padding: 20,
   },
-  targetaRoja:{backgroundColor:'#FF6B6B'},
-  targetaVerde:{backgroundColor:'#6BCB77'},
-
-
-  tituloCarrusel: {
-    fontSize: 18,
+  titulo: {
+    fontSize: 22,
     fontWeight: 'bold',
-    marginTop: 20,
-    marginBottom: 10,
+    color: '#ffffff',
     textAlign: 'center',
+    marginBottom: 10,
   },
-
-
-
-  carruselImagenes: {
-    width: 250,             
-    height: 150,           
-    borderRadius: 10,        
-    marginHorizontal: 10,    
+  descripcion: {
+    fontSize: 13,
+    color: '#aaaaaa',
+    textAlign: 'center',
+    marginBottom: 12,
   },
-  
-  carruselContenedor:{
-    paddingVerical: 10,
-  }
+  fila: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: 'rgba(255,255,255,0.08)',
+    borderRadius: 12,
+    padding: 12,
+    marginBottom: 16,
+  },
+  etiqueta: {
+    color: '#ffffff',
+    fontSize: 14,
+    marginBottom: 10,
+  },
+  lista: {
+    flex: 1,
+  },
+  tarjeta: {
+    height: 80,
+    borderRadius: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  textoTarjeta: {
+    color: '#ffffff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
 });
-
