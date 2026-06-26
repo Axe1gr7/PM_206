@@ -52,7 +52,7 @@ export default function SafeAreaScreen(){
         <View style={[styles.tarjeta, {backgroundColor: 'green'}]}>
           <Text style={styles.textoTarjeta}>elemento 3 </Text>
         </View>
-        <View style={[styles.tarjeta, {backgroundColor: 'puple'}]}>
+        <View style={[styles.tarjeta, {backgroundColor: 'purple'}]}>
           <Text style={styles.textoTarjeta}>elemento 4 </Text>
         </View>
         <View style={[styles.tarjeta, {backgroundColor: 'pink'}]}>

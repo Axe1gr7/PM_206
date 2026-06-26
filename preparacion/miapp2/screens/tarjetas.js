@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection:'column',
-    margin:100
+    marginTop: 40
   },
   tarjetaRoja:{
     backgroundColor:'rgba(193, 0, 0, 0.73)'

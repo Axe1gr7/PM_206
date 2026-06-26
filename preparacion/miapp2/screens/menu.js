@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection:'column',
-    margin:200
+    marginTop: 50
   },
 
 });
