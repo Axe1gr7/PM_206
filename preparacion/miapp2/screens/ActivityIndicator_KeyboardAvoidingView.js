@@ -18,7 +18,6 @@ export default function ActivityIndicatorScreen() {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleGuardar = () => {
-    // Validamos que no estén vacíos
     if (!nombre.trim() || !carrera.trim()) {
       Alert.alert('Error', 'Por favor, llena todos los campos.');
       return;
@@ -26,12 +25,11 @@ export default function ActivityIndicatorScreen() {
 
     setIsLoading(true);
 
-    // Simulamos la petición de red (3 segundos)
+
     setTimeout(() => {
       setIsLoading(false);
       Alert.alert(`Perfil de ${nombre} guardado con exito`);
-      
-      // Limpiamos los campos
+
       setNombre('');
       setCarrera('');
     }, 3000);
