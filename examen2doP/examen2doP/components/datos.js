@@ -1,11 +1,5 @@
-/* Zona 1 importacion de componentes y archivos */
-import { StatusBar } from 'expo-status-bar';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View, Button, TextInput, Platform, Alert, Keyboard, Switch , persable, Pressable } from 'react-native';
-
-import React, { useState } from 'react';
-import { Perfil } from './components/tarjetaMascotas';
-
-import React, { useState } from 'react';
 
 
 export default function parte2() {
@@ -25,27 +19,9 @@ const procesarRegistro = () => {
   };
 
 return (
-
-
     <View style={styles.container}>
     <StatusBar style={adoptado ? "light" : "dark"}  />
-    <View style={styles.container}>
-    <Perfil 
-        nombre="chola" 
-        especie="pastor" 
-        edad="2 años"
-    ></Perfil>
-        <Perfil 
-        nombre="chola" 
-        especie="pastor" 
-        edad="2 años"
-    ></Perfil>
-        <Perfil 
-        nombre="chola" 
-        especie="pastor" 
-        edad="2 años"
-    ></Perfil>
-    </View>
+
       {}
       <TextInput 
       style={styles.input}
@@ -116,16 +92,4 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: "bold"
     }
-});
-  
-
-
-/* Zona estilos y posicionamiento*/
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
 });
