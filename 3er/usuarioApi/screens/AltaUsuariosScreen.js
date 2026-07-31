@@ -1,9 +1,57 @@
 import React, { useState } from 'react';
-import {View,SafeAreaView,Text,TextInput,Pressable,StyleSheet,} from 'react-native';
+import {View,SafeAreaView,Text,TextInput,Pressable,StyleSheet,Alert,Platform} from 'react-native';
 
 export default function App() {
   const [nombre, setNombre] = useState('');
   const [edad, setEdad] = useState('');
+  const [carga, setCargando] = useState(false);
+
+  const mostrarMensaje = (titulo, mensaje) => {
+    if (Platform.OS === 'web') {
+      window.alert(`${titulo}\n: ${mensaje}`);
+    } else {
+      Alert.alert(titulo, mensaje);
+    }
+  };
+
+
+  const guardarUsuario = async () => {
+    if (nombre.trim() === '' || edad.trim() === '') {
+      mostrarMensaje('Vacíos', 'Por favor, complete todos los campos.');
+      return;
+    }
+
+
+    try {
+      setCargando(true);
+      const respuesta = await fetch('http://192.168.0.128:5000/v1/usuarios/', 
+      {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ nombre:nombre , edad:Number(edad)}),
+      });
+      if (respuesta.ok) {
+        const datos = await respuesta.json();
+        console.log('Usuario agregado:', datos);
+        mostrarMensaje('Éxito', 'Usuario agregado correctamente.');
+        setNombre('');
+        setEdad('');
+      } else {
+        console.log('Error al agregar usuario:', respuesta.status);
+        mostrarMensaje('Error', 'No se pudo agregar el usuario. Intente nuevamente.');
+      }
+    } 
+    catch (error) {
+      console.log('Error al agregar usuario:', error);
+      mostrarMensaje('Error', 'Ocurrió un error al agregar el usuario.');
+    } 
+    finally {
+      setCargando(false);
+    }
+  };
+
 
   return (
     <SafeAreaView style={styles.container}>
@@ -29,9 +77,9 @@ export default function App() {
           onChangeText={setEdad}
         />
 
-        <Pressable style={styles.boton}>
+        <Pressable style={styles.boton} onPress={guardarUsuario} disabled={carga}>
           <Text style={styles.textoBoton}>
-            Agregar Usuario
+            {carga ? "Agregando..." : "Agregar Usuario"}
           </Text>
         </Pressable>
 
