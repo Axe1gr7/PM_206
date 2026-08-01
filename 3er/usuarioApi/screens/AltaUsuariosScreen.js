@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import {View,SafeAreaView,Text,TextInput,Pressable,StyleSheet,Alert,Platform} from 'react-native';
+import {View,Text,TextInput,Pressable,StyleSheet,Alert,Platform} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { API_URL } from '../utils/api';
 
 export default function App() {
   const [nombre, setNombre] = useState('');
@@ -24,7 +26,7 @@ export default function App() {
 
     try {
       setCargando(true);
-      const respuesta = await fetch('http://192.168.0.128:5000/v1/usuarios/', 
+      const respuesta = await fetch(`${API_URL}/v1/usuarios/`, 
       {
         method: 'POST',
         headers: {
@@ -104,14 +106,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     padding: 25,
     borderRadius: 15,
-    elevation: 5, 
-    shadowColor: '#000',
-    shadowOpacity: 0.15,
-    shadowRadius: 8,
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
+    boxShadow: '0px 3px 8px rgba(0, 0, 0, 0.15)',
   },
 
   titulo: {

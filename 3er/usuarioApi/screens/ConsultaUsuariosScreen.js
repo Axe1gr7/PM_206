@@ -1,13 +1,16 @@
-import React,{useState, useEffect} from 'react';
-import {SafeAreaView,View,Text,FlatList,StyleSheet,
-} from 'react-native';
+import React,{useState, useCallback} from 'react';
+import {View,Text,FlatList,StyleSheet,Pressable} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useRouter, useFocusEffect } from 'expo-router';
+import { API_URL } from '../utils/api';
 
 export default function ConsultaUsuariosScreen() {
+  const router = useRouter();
 
   const [usuarios, setUsuarios] = useState([]);
   const obtenerUsuarios = async () => {
     try {
-      const respuesta = await fetch('http://192.168.0.128:5000/v1/usuarios/');
+      const respuesta = await fetch(`${API_URL}/v1/usuarios/`);
       const datos = await respuesta.json();
       setUsuarios(datos);
       console.log('Respuesta API: ', datos);
@@ -18,7 +21,13 @@ export default function ConsultaUsuariosScreen() {
     }
   };
 
-  useEffect(() => { obtenerUsuarios();},[]);
+  // Refresca la lista cada vez que la pantalla obtiene foco
+  // (por ejemplo, al volver de editar/eliminar un usuario)
+  useFocusEffect(
+    useCallback(() => {
+      obtenerUsuarios();
+    }, [])
+  );
 
   const renderTarjeta = ({ item }) => (
     <View style={styles.card}>
@@ -30,6 +39,12 @@ export default function ConsultaUsuariosScreen() {
       <Text style={styles.info}>
         Edad: {item.edad} años
       </Text>
+      
+      <View style={styles.actionContainer}>
+        <Pressable onPress={() => router.push({ pathname: '/usuario/[id]', params: { id: item.id, nombre: item.nombre, edad: item.edad } })}>
+           <Text style={styles.linkDetalles}>Ver detalles →</Text>
+        </Pressable>
+      </View>
 
     </View>
   );
@@ -44,7 +59,7 @@ export default function ConsultaUsuariosScreen() {
 
       <FlatList
         data={usuarios}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.id?.toString()}
         renderItem={renderTarjeta}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 20 }}
@@ -76,15 +91,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     padding: 18,
     marginBottom: 15,
-    elevation: 4,
-
-    shadowColor: '#000',
-    shadowOpacity: 0.15,
-    shadowRadius: 5,
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
+    boxShadow: '0px 3px 5px rgba(0, 0, 0, 0.15)',
   },
 
   nombre: {
@@ -102,6 +109,17 @@ const styles = StyleSheet.create({
   info: {
     fontSize: 16,
     color: '#4B5563',
+  },
+
+  actionContainer: {
+    marginTop: 15,
+    alignItems: 'flex-end',
+  },
+  
+  linkDetalles: {
+    color: '#3B82F6',
+    fontWeight: '600',
+    fontSize: 14,
   },
 
 });
