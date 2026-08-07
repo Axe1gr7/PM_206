@@ -28,7 +28,7 @@ export default function DetallesUsuarioScreen({ usuario }) {
       });
 
       if (respuesta.ok) {
-        mostrarMensaje('Éxito', 'Usuario eliminado correctamente.', () => router.replace('/(tabs)/consulta'));
+        mostrarMensaje('Éxito', 'Usuario eliminado correctamente.', () => router.replace('/consulta'));
       } else {
         console.log('Error al eliminar usuario:', respuesta.status);
         mostrarMensaje('Error', 'No se pudo eliminar el usuario.');

@@ -7,7 +7,7 @@ import { API_URL } from '../utils/api';
 
 export default function ActualizarUsuarioScreen({ usuario }) {
   const router = useRouter();
-  
+
   const [nombre, setNombre] = useState(usuario.nombre || '');
   const [edad, setEdad] = useState(usuario.edad ? String(usuario.edad) : '');
   const [carga, setCarga] = useState(false);
@@ -38,7 +38,7 @@ export default function ActualizarUsuarioScreen({ usuario }) {
 
       if (respuesta.ok) {
         mostrarMensaje('Éxito', 'Usuario actualizado correctamente.');
-        router.replace('/(tabs)/consulta');
+        router.replace('/consulta');
       } else {
         console.log('Error al actualizar usuario:', respuesta.status);
         mostrarMensaje('Error', 'No se pudo actualizar el usuario. Intente nuevamente.');
@@ -82,8 +82,8 @@ export default function ActualizarUsuarioScreen({ usuario }) {
         />
 
         <View style={styles.buttonContainer}>
-          <Pressable 
-            style={styles.btnActualizar} 
+          <Pressable
+            style={styles.btnActualizar}
             onPress={actualizarUsuario}
             disabled={carga}
           >
