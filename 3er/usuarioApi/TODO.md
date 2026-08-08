@@ -23,5 +23,5 @@
 - [x] 18. Reiniciar backend Docker para aplicar cambios CORS
 - [x] 19. Configurar IP definitiva `192.168.0.128` en `app.json` y `utils/api.js`
 - [x] 20. Verificado: API responde en `http://192.168.0.128:5000/v1/usuarios/` (7 usuarios)
-- [x] 21. APK reconstruido con IP definitiva `192.168.0.128` (build c5f5525a)
-- [x] 22. QR de descarga disponible: https://expo.dev/accounts/4xelgr/projects/repa2/builds/c5f5525a-8786-41d7-acaf-02fa07e9b6a5
+- [x] 21. APK reconstruido con IP definitiva `192.168.0.128` (build c546b969, commit 393bd3f)
+- [x] 22. QR de descarga directa del APK: https://expo.dev/artifacts/eas/pzGSMj_kc_CKa8bLPOydiLXPgjBsvAWY0R1_LdfvM98.apk
