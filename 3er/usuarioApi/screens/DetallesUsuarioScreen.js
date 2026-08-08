@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Pressable, Alert, Platform, ActivityIndicator }
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import { API_URL } from '../utils/api';
+import { getApiUrl } from '../utils/api';
 
 export default function DetallesUsuarioScreen({ usuario }) {
   const router = useRouter();
@@ -23,7 +23,7 @@ export default function DetallesUsuarioScreen({ usuario }) {
   const eliminarUsuario = async () => {
     try {
       setEliminando(true);
-      const respuesta = await fetch(`${API_URL}/v1/usuarios/${usuario.id}`, {
+      const respuesta = await fetch(`${getApiUrl()}/v1/usuarios/${usuario.id}`, {
         method: 'DELETE',
       });
 

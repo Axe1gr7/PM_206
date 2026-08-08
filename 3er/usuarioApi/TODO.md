@@ -12,4 +12,16 @@
 - [x] 10. Verificado: GET/PUT/DELETE funcionan sin auth (curl OK)
 - [x] 11. **Corregir permisos de `hermesc`** (EACCES) que bloqueaba la generación del APK
 - [x] 12. Verificado: Android bundle genera .hbc correctamente (export OK)
-- [ ] 13. Reconstruir el APK con `eas build`
+- [x] 13. Reconstruir el APK con `eas build`
+
+## Nuevos pasos - Conectar API con app móvil
+
+- [x] 14. `screens/DetallesUsuarioScreen.js`: usar `getApiUrl()` dinámico en lugar de `API_URL` estático
+- [x] 15. `screens/ActualizarUsuarioScreen.js`: usar `getApiUrl()` dinámico en lugar de `API_URL` estático
+- [x] 16. `screens/AltaUsuariosScreen.js`: usar `getApiUrl()` dinámico en lugar de `API_URL` estático
+- [x] 17. `../miAPI/app/main.py`: ampliar CORS para permitir cualquier origen en desarrollo
+- [x] 18. Reiniciar backend Docker para aplicar cambios CORS
+- [x] 19. Configurar IP definitiva `192.168.0.128` en `app.json` y `utils/api.js`
+- [x] 20. Verificado: API responde en `http://192.168.0.128:5000/v1/usuarios/` (7 usuarios)
+- [x] 21. APK reconstruido con IP definitiva `192.168.0.128` (build c5f5525a)
+- [x] 22. QR de descarga disponible: https://expo.dev/accounts/4xelgr/projects/repa2/builds/c5f5525a-8786-41d7-acaf-02fa07e9b6a5

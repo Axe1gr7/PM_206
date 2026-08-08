@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {View,Text,TextInput,Pressable,StyleSheet,Alert,Platform} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { API_URL } from '../utils/api';
+import { getApiUrl } from '../utils/api';
 
 export default function App() {
   const [nombre, setNombre] = useState('');
@@ -26,7 +26,7 @@ export default function App() {
 
     try {
       setCargando(true);
-      const respuesta = await fetch(`${API_URL}/v1/usuarios/`, 
+      const respuesta = await fetch(`${getApiUrl()}/v1/usuarios/`, 
       {
         method: 'POST',
         headers: {

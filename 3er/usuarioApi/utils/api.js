@@ -2,55 +2,64 @@ import Constants from 'expo-constants';
 import { Platform } from 'react-native';
 
 // ---------------------------------------------------------------------------
-// OBTENER LA URL BASE DE LA API DINÁMICAMENTE
+// URL BASE DE LA API
 // ---------------------------------------------------------------------------
-// En desarrollo (Expo Go) usamos el host del servidor de desarrollo (hostUri)
-// para apuntar a la misma máquina donde corre la API.
-//
-// En un APK/compilación de producción no hay servidor de desarrollo, así que
-// se usa una IP fija configurada abajo (IP de la máquina donde corre la API
-// dentro de la misma red). Cambia PRODUCCION_IP según tu caso.
+// APK (producción): siempre usa la IP del servidor (apiHost de app.json).
+// Expo Go: intenta detectar el host del bundler automáticamente.
 // ---------------------------------------------------------------------------
 
+// IP fija del servidor donde corre la API (tu Mac).
+const IP_SERVIDOR = '192.168.0.128';
 const PUERTO_API = 5000;
 
-// IP de la máquina que corre la API (para usar en APK de producción).
-// Debe ser la IP local del equipo en la red (ej. 192.168.1.10).
-const PRODUCCION_HOST = '192.168.1.10';
+// Se toma el host desde app.json (extra.apiHost) si existe, si no usa el fijo.
+const PRODUCCION_HOST =
+  Constants.expoConfig?.extra?.apiHost ?? IP_SERVIDOR;
+
+function extraerHost(valor) {
+  if (!valor) return null;
+  const sinProtocolo = String(valor).replace(/^[a-zA-Z]+:\/\//, '');
+  const host = sinProtocolo.split(':')[0];
+  if (!host || host === 'localhost' || host === '127.0.0.1') return null;
+  return host;
+}
 
 function obtenerHostExpo() {
-  // En desarrollo, expoConfig.hostUri trae algo como "192.168.1.10:8081"
-  const hostUri =
-    Constants.expoConfig?.hostUri ||
-    Constants.manifest2?.extra?.expoGo?.debuggerHost ||
-    '';
-  if (hostUri) {
-    // Nos quedamos solo con la parte del host (sin el puerto de Expo)
-    const host = hostUri.split(':')[0];
+  const fuentes = [
+    Constants.expoConfig?.hostUri,
+    Constants.expoGoConfig?.hostUri,
+    Constants.expoGoConfig?.debuggerHost,
+    Constants.manifest2?.extra?.expoGo?.debuggerHost,
+    Constants.manifest2?.extra?.expoGo?.hostUri,
+    Constants.linkingUri,
+    Constants.experienceUrl,
+  ];
+
+  for (const fuente of fuentes) {
+    const host = extraerHost(fuente);
     if (host) return host;
   }
   return null;
 }
 
-function obtenerBaseURL() {
-  // 1) En Expo Go (desarrollo/apk de dev) usamos el host del Metro bundler
+export function getApiUrl() {
+  // APK instalado (producción): SIEMPRE usa la IP del servidor.
+  if (!__DEV__) {
+    return `http://${PRODUCCION_HOST}:${PUERTO_API}`;
+  }
+
+  // En desarrollo con Expo Go: intenta usar el host del bundler.
   const host = obtenerHostExpo();
   if (host) {
     return `http://${host}:${PUERTO_API}`;
   }
 
-  // 2) En producción (APK standalone) usamos la IP fija configurada
-  if (!__DEV__) {
-    return `http://${PRODUCCION_HOST}:${PUERTO_API}`;
-  }
-
-  // 3) Fallbacks según la plataforma (solo desarrollo)
   if (Platform.OS === 'web') {
     return `http://localhost:${PUERTO_API}`;
   }
 
-  // Emuladores de Android usan 10.0.2.2 para llegar al host
-  return `http://10.0.2.2:${PUERTO_API}`;
+  // Último recurso: la IP del servidor.
+  return `http://${PRODUCCION_HOST}:${PUERTO_API}`;
 }
 
-export const API_URL = obtenerBaseURL();
+export const API_URL = getApiUrl();

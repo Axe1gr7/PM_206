@@ -2,21 +2,41 @@ import React, { useState, useCallback } from 'react';
 import { View, Text, FlatList, StyleSheet, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter, useFocusEffect } from 'expo-router';
-import { API_URL } from '../utils/api';
+import { getApiUrl } from '../utils/api';
 
 export default function ConsultaUsuariosScreen() {
   const router = useRouter();
 
   const [usuarios, setUsuarios] = useState([]);
+  const [error, setError] = useState(null);
+  const [cargando, setCargando] = useState(true);
 
-  const obtenerUsuarios = async () => {
+const obtenerUsuarios = async () => {
+    const apiUrl = getApiUrl();
+    setCargando(true);
+    setError(null);
     try {
-      const respuesta = await fetch(`${API_URL}/v1/usuarios/`);
+      // Timeout de 10 segundos para no quedarse colgado si no hay conexión
+      const controlador = new AbortController();
+      const timeout = setTimeout(() => controlador.abort(), 10000);
+
+      const respuesta = await fetch(`${apiUrl}/v1/usuarios/`, {
+        signal: controlador.signal,
+      });
+      clearTimeout(timeout);
+
+      if (!respuesta.ok) {
+        throw new Error(`HTTP ${respuesta.status}`);
+      }
       const datos = await respuesta.json();
-      console.log('Respuesta API: ', datos);
+      console.log('Respuesta API:', datos, 'URL:', apiUrl);
       setUsuarios(datos.usuarios || []);
-    } catch (error) {
-      console.log('Error al obtener los usuarios:', error);
+    } catch (err) {
+      console.log('Error al obtener los usuarios:', err, 'URL:', apiUrl);
+      setError(`No se pudo conectar a ${apiUrl}\nRevisa que la API esté encendida y en la misma red.`);
+      setUsuarios([]);
+    } finally {
+      setCargando(false);
     }
   };
 
@@ -54,6 +74,16 @@ export default function ConsultaUsuariosScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.titulo}>Lista de Usuarios</Text>
+
+      {cargando && <Text style={styles.estado}>Cargando usuarios...</Text>}
+      {error && (
+        <View style={styles.errorBox}>
+          <Text style={styles.errorText}>{error}</Text>
+          <Pressable onPress={obtenerUsuarios} style={styles.retryButton}>
+            <Text style={styles.retryText}>Reintentar</Text>
+          </Pressable>
+        </View>
+      )}
 
       <FlatList
         data={usuarios}
@@ -115,5 +145,36 @@ const styles = StyleSheet.create({
     color: '#3B82F6',
     fontWeight: '600',
     fontSize: 14,
+  },
+
+  estado: {
+    textAlign: 'center',
+    color: '#6B7280',
+    marginBottom: 10,
+  },
+
+  errorBox: {
+    backgroundColor: '#FEE2E2',
+    borderRadius: 10,
+    padding: 15,
+    marginBottom: 15,
+  },
+
+  errorText: {
+    color: '#B91C1C',
+    textAlign: 'center',
+    marginBottom: 10,
+  },
+
+  retryButton: {
+    backgroundColor: '#EF4444',
+    paddingVertical: 8,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+
+  retryText: {
+    color: '#FFFFFF',
+    fontWeight: '600',
   },
 });
